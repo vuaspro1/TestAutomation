@@ -4,6 +4,7 @@ import Common.Constant;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -25,7 +26,7 @@ public class TestNG {
 
     @Test
     //User can log into Railway with valid username and password
-    public void tc01() {
+    public void TC01() {
         driver.findElement(By.xpath("//a[@href='/Account/Login.cshtml']")).click();
         WebElement email = driver.findElement(By.id("username"));
         email.sendKeys(Constant.USERNAME);
@@ -38,7 +39,7 @@ public class TestNG {
 
     //User can't login with blank "Username" textbox
     @Test
-    public void tc02() {
+    public void TC02() {
         driver.findElement(By.xpath("//a[@href='/Account/Login.cshtml']")).click();
         WebElement password = driver.findElement(By.id("password"));
         password.sendKeys(Constant.PASSWORD);
@@ -49,7 +50,7 @@ public class TestNG {
 
     //User cannot log into Railway with invalid password
     @Test
-    public void tc03() {
+    public void TC03() {
         driver.findElement(By.xpath("//a[@href='/Account/Login.cshtml']")).click();
         WebElement email = driver.findElement(By.id("username"));
         email.sendKeys(Constant.USERNAME);
@@ -62,7 +63,7 @@ public class TestNG {
 
     //Login page displays when un-logged User clicks on "Book ticket" tab
     @Test
-    public void tc04() {
+    public void TC04() {
         driver.get("http://railwayb1.somee.com/Page/HomePage.cshtml");
         driver.findElement(By.xpath("//a[@href='/Page/BookTicketPage.cshtml']")).click();
 
@@ -70,7 +71,7 @@ public class TestNG {
 
     //System shows message when user enters wrong password several times
     @Test
-    public void tc05() {
+    public void TC05() {
         driver.findElement(By.xpath("//a[@href='/Account/Login.cshtml']")).click();
         for (int i = 0; i < 5; i++) {
             WebElement email = driver.findElement(By.id("username"));
@@ -91,7 +92,7 @@ public class TestNG {
 
     //Additional pages display once user logged in
     @Test
-    public void tc06() {
+    public void TC06() {
         driver.findElement(By.xpath("//a[@href='/Account/Login.cshtml']")).click();
         WebElement email = driver.findElement(By.id("username"));
         email.sendKeys(Constant.USERNAME);
@@ -124,7 +125,7 @@ public class TestNG {
 
     //User can create new account
     @Test
-    public void tc07() {
+    public void TC07() {
         driver.findElement(By.xpath("//span[normalize-space()='Register']")).click();
         WebElement email = driver.findElement(By.xpath("//input[@id='email']"));
         email.sendKeys(Constant.USERNAME);
@@ -142,7 +143,7 @@ public class TestNG {
 
     //User can't login with an account hasn't been activated
     @Test
-    public void tc08() {
+    public void TC08() {
         driver.findElement(By.xpath("//a[@href='/Account/Login.cshtml']")).click();
         WebElement email = driver.findElement(By.id("username"));
         email.sendKeys(Constant.USERNAME);
@@ -155,7 +156,7 @@ public class TestNG {
 
     //User can change password
     @Test
-    public void tc09() {
+    public void TC09() {
         driver.findElement(By.xpath("//a[@href='/Account/Login.cshtml']")).click();
         WebElement email = driver.findElement(By.id("username"));
         email.sendKeys(Constant.USERNAME);
@@ -175,7 +176,7 @@ public class TestNG {
 
     //User can't create account with "Confirm password" is not the same with "Password"
     @Test
-    public void tc10() {
+    public void TC10() {
         driver.findElement(By.xpath("//span[normalize-space()='Register']")).click();
         WebElement email = driver.findElement(By.xpath("//input[@id='email']"));
         email.sendKeys(Constant.USERNAME);
@@ -192,7 +193,7 @@ public class TestNG {
 
     //User can't create account while password and PID fields are empty
     @Test
-    public void tc11() {
+    public void TC11() {
         driver.findElement(By.xpath("//span[normalize-space()='Register']")).click();
         WebElement email = driver.findElement(By.xpath("//input[@id='email']"));
         email.sendKeys(Constant.USERNAME);
@@ -212,7 +213,7 @@ public class TestNG {
 
     //Errors display when password reset token is blank
     @Test
-    public void tc12() {
+    public void TC12() {
         driver.findElement(By.xpath("//a[@href='/Account/Login.cshtml']")).click();
         driver.findElement(By.xpath("(//a[normalize-space()='Forgot Password page'])[1]")).click();
         WebElement email = driver.findElement(By.xpath("//input[@id='email']"));
@@ -221,14 +222,9 @@ public class TestNG {
         driver.quit();
     }
 
-    @Test
-    public void tc13(){
-
-    }
-
     //User can book 1 ticket at a time
     @Test
-    public void tc14() {
+    public void TC14() {
         driver.findElement(By.xpath("//a[@href='/Account/Login.cshtml']")).click();
         WebElement email = driver.findElement(By.id("username"));
         email.sendKeys(Constant.USERNAME);
@@ -272,37 +268,31 @@ public class TestNG {
 
     //User can open "Book ticket" page by clicking on "Book ticket" link in "Train timetable" page
     @Test
-    public void tc15() throws InterruptedException {
+    public void TC15() throws InterruptedException {
         driver.findElement(By.xpath("//a[@href='/Account/Login.cshtml']")).click();
         WebElement email = driver.findElement(By.id("username"));
         email.sendKeys(Constant.USERNAME);
         WebElement password = driver.findElement(By.id("password"));
         password.sendKeys(Constant.PASSWORD);
-        //Click Login button
         WebElement button = driver.findElement(By.xpath("//input[@type='submit']"));
         button.click();
-
         WebElement timetable = driver.findElement(By.xpath("//a[@href='TrainTimeListPage.cshtml']"));
         timetable.click();
-
-
         WebElement train_timetable = driver.findElement(By.xpath("//h1[normalize-space()='Train Timetable']"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", train_timetable);
-
         boolean Check_price = driver.findElement(By.xpath("//*[@id=\"content\"]/div/div/table/tbody/tr[2]/td[7]/a")).isDisplayed();
         Thread.sleep(2000);
         if (Check_price == true) {
             driver.findElement(By.xpath("//*[@id=\"content\"]/div/div/table/tbody/tr[2]/td[7]/a")).click();
-            System.out.println("Đã click Check_price ");
+            System.out.println("Book Ticket found");
         } else {
-            System.out.println("Không tìm thấy Check_price ");
-
+            System.out.println("Book Ticked not found ");
         }
     }
 
     //User can cancel a ticket
     @Test
-    public void tc16() {
+    public void TC16() {
         driver.findElement(By.xpath("//a[@href='/Account/Login.cshtml']")).click();
         WebElement email = driver.findElement(By.id("username"));
         email.sendKeys(Constant.USERNAME);
@@ -325,6 +315,11 @@ public class TestNG {
         Alert alert = driver.switchTo().alert();
         alert.accept();
 
+    }
+    @AfterMethod
+    public void tearDown() {
+        // Đóng trình duyệt sau khi mỗi test case
+        driver.quit();
     }
 }
 
