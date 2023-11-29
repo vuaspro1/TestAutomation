@@ -18,12 +18,6 @@ public class TestNG {
         driver.get("http://railwayb1.somee.com/Page/HomePage.cshtml");
     }
 
-    @AfterTest
-    public void close() throws InterruptedException {
-        Thread.sleep(1000);
-        driver.quit();
-    }
-
     @Test
     //User can log into Railway with valid username and password
     public void TC01() {
